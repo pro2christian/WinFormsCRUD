@@ -36,6 +36,10 @@
             label3 = new Label();
             txt_Telefone = new TextBox();
             txt_Email = new TextBox();
+            list_contato = new ListView();
+            label4 = new Label();
+            txt_buscar_contato = new TextBox();
+            button2 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -60,7 +64,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(12, 178);
+            button1.Location = new Point(12, 168);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 2;
@@ -70,7 +74,7 @@
             // 
             // txt_delete
             // 
-            txt_delete.Location = new Point(93, 178);
+            txt_delete.Location = new Point(93, 168);
             txt_delete.Name = "txt_delete";
             txt_delete.Size = new Size(75, 23);
             txt_delete.TabIndex = 3;
@@ -112,11 +116,49 @@
             txt_Email.Size = new Size(239, 23);
             txt_Email.TabIndex = 7;
             // 
+            // list_contato
+            // 
+            list_contato.Location = new Point(260, 62);
+            list_contato.Name = "list_contato";
+            list_contato.Size = new Size(358, 129);
+            list_contato.TabIndex = 8;
+            list_contato.UseCompatibleStateImageBehavior = false;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(260, 11);
+            label4.Name = "label4";
+            label4.Size = new Size(88, 15);
+            label4.TabIndex = 9;
+            label4.Text = "Buscar Contato";
+            // 
+            // txt_buscar_contato
+            // 
+            txt_buscar_contato.Location = new Point(260, 33);
+            txt_buscar_contato.Name = "txt_buscar_contato";
+            txt_buscar_contato.Size = new Size(277, 23);
+            txt_buscar_contato.TabIndex = 10;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(543, 33);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 11;
+            button2.Text = "Buscar";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(269, 234);
+            ClientSize = new Size(633, 211);
+            Controls.Add(button2);
+            Controls.Add(txt_buscar_contato);
+            Controls.Add(label4);
+            Controls.Add(list_contato);
             Controls.Add(txt_Email);
             Controls.Add(txt_Telefone);
             Controls.Add(label3);
@@ -141,5 +183,9 @@
         private Label label3;
         private TextBox txt_Telefone;
         private TextBox txt_Email;
+        private ListView list_contato;
+        private Label label4;
+        private TextBox txt_buscar_contato;
+        private Button button2;
     }
 }
