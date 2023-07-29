@@ -54,7 +54,13 @@ namespace WinFormsCRUD
                 }
 
                 comando.ExecuteReader();
+
+                txt_nome.Clear();
+                txt_Telefone.Clear();
+                txt_Email.Clear();
+
                 MessageBox.Show("Cadastrado com sucesso!!");
+                 
 
 
             }
