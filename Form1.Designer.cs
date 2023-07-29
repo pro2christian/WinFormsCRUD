@@ -45,11 +45,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = SystemColors.ControlText;
             label1.Location = new Point(12, 9);
             label1.Name = "label1";
-            label1.Size = new Size(47, 17);
+            label1.Size = new Size(43, 15);
             label1.TabIndex = 0;
             label1.Text = "Nome:";
             // 
@@ -84,10 +84,10 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label2.Location = new Point(12, 59);
             label2.Name = "label2";
-            label2.Size = new Size(60, 17);
+            label2.Size = new Size(54, 15);
             label2.TabIndex = 4;
             label2.Text = "Telefone:";
             // 
@@ -120,7 +120,7 @@
             // 
             list_contato.Location = new Point(260, 62);
             list_contato.Name = "list_contato";
-            list_contato.Size = new Size(358, 129);
+            list_contato.Size = new Size(431, 146);
             list_contato.TabIndex = 8;
             list_contato.UseCompatibleStateImageBehavior = false;
             // 
@@ -154,7 +154,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(633, 211);
+            ClientSize = new Size(704, 221);
             Controls.Add(button2);
             Controls.Add(txt_buscar_contato);
             Controls.Add(label4);

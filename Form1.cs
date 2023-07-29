@@ -16,6 +16,7 @@ namespace WinFormsCRUD
             list_contato.FullRowSelect = true;
             list_contato.GridLines = true;
 
+            //estrutura listview
             list_contato.Columns.Add("ID", 30, HorizontalAlignment.Left);
             list_contato.Columns.Add("Nome", 150, HorizontalAlignment.Left);
             list_contato.Columns.Add("E-mail", 150, HorizontalAlignment.Left);
@@ -26,7 +27,7 @@ namespace WinFormsCRUD
         {
             try
             {
-               
+
                 //criar conexao com Mysql
                 Conexao = new MySqlConnection(data_souce);
 
@@ -53,46 +54,53 @@ namespace WinFormsCRUD
         private void button2_Click(object sender, EventArgs e)
         {
             try
-            {   
-                //
-                string query ="%" + txt_buscar_contato.Text + "%";
+            {
+
+                string query = "'%" + txt_buscar_contato.Text + "%'";
 
                 //criar conexao com Mysql
                 Conexao = new MySqlConnection(data_souce);
 
                 string sql = "SELECT * " +
                     " FROM contato " +
-                    "WHERE nome LIKE " + query +  "OR email LIKE " + query;
-                
+                    "WHERE nome LIKE " + query + "OR email LIKE " + query;
+
                 Conexao.Open();
-                
+
                 MySqlCommand comando = new MySqlCommand(sql, Conexao);
-                
+
+                //Recupera os dados do MySql
                 MySqlDataReader ler = comando.ExecuteReader();
 
+                //Limpa os dados da busca
                 list_contato.Items.Clear();
 
+                //ler os dados while false
                 while (ler.Read())
                 {
                     string[] linha =
                     {
-                       ler.GetString(0),
-                       ler.GetString(1),
-                       ler.GetString(2),
-                       ler.GetString(3),
+                       ler.GetString(0), // "ID"
+                       ler.GetString(1),// "NOME"
+                       ler.GetString(2),// "E-MAIL"
+                       ler.GetString(3),// "TELEFONE"
                     };
 
+                    //Linha da lista
                     var linha_listview = new ListViewItem(linha);
                     list_contato.Items.Add(linha_listview);
                 }
-               
-                
 
-            } catch (Exception ex)
+
+
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            } finally { 
-            Conexao.Close();
+            }
+            finally
+            {
+                Conexao.Close();
             }
         }
     }
