@@ -45,9 +45,9 @@ namespace WinFormsCRUD
                    string.IsNullOrWhiteSpace(txt_Email.Text) ||
                    string.IsNullOrWhiteSpace(txt_Telefone.Text))
                 {
-                    string erro = "Nome:\n" +
-                                  "Telefone:\n" +
-                                  "E-mail:\n" +
+                    string erro = "Nome......:\n" +
+                                  "Telefone.:\n" +
+                                  "E-mail.....:\n" +
                                   "São obrigatórios!";
                     MessageBox.Show(erro);
                     return;
