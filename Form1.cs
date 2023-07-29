@@ -55,7 +55,7 @@ namespace WinFormsCRUD
             try
             {   
                 //
-                string query ="%" + txt_buscar_contato.Text + "%";
+                string query ="'%" + txt_buscar_contato.Text + "%'";
 
                 //criar conexao com Mysql
                 Conexao = new MySqlConnection(data_souce);
