@@ -67,7 +67,7 @@
             button1.Location = new Point(12, 168);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
-            button1.TabIndex = 2;
+            button1.TabIndex = 4;
             button1.Text = "Salvar";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
@@ -77,7 +77,7 @@
             txt_delete.Location = new Point(93, 168);
             txt_delete.Name = "txt_delete";
             txt_delete.Size = new Size(75, 23);
-            txt_delete.TabIndex = 3;
+            txt_delete.TabIndex = 7;
             txt_delete.Text = "Deletar";
             txt_delete.UseVisualStyleBackColor = true;
             // 
@@ -88,7 +88,7 @@
             label2.Location = new Point(12, 59);
             label2.Name = "label2";
             label2.Size = new Size(54, 15);
-            label2.TabIndex = 4;
+            label2.TabIndex = 0;
             label2.Text = "Telefone:";
             // 
             // label3
@@ -97,7 +97,7 @@
             label3.Location = new Point(12, 110);
             label3.Name = "label3";
             label3.Size = new Size(44, 15);
-            label3.TabIndex = 5;
+            label3.TabIndex = 0;
             label3.Text = "E-mail:";
             // 
             // txt_Telefone
@@ -106,7 +106,7 @@
             txt_Telefone.Location = new Point(15, 81);
             txt_Telefone.Name = "txt_Telefone";
             txt_Telefone.Size = new Size(239, 23);
-            txt_Telefone.TabIndex = 6;
+            txt_Telefone.TabIndex = 2;
             // 
             // txt_Email
             // 
@@ -114,7 +114,7 @@
             txt_Email.Location = new Point(15, 138);
             txt_Email.Name = "txt_Email";
             txt_Email.Size = new Size(239, 23);
-            txt_Email.TabIndex = 7;
+            txt_Email.TabIndex = 3;
             // 
             // list_contato
             // 
@@ -130,7 +130,7 @@
             label4.Location = new Point(260, 11);
             label4.Name = "label4";
             label4.Size = new Size(88, 15);
-            label4.TabIndex = 9;
+            label4.TabIndex = 0;
             label4.Text = "Buscar Contato";
             // 
             // txt_buscar_contato
@@ -138,14 +138,14 @@
             txt_buscar_contato.Location = new Point(260, 33);
             txt_buscar_contato.Name = "txt_buscar_contato";
             txt_buscar_contato.Size = new Size(277, 23);
-            txt_buscar_contato.TabIndex = 10;
+            txt_buscar_contato.TabIndex = 5;
             // 
             // button2
             // 
             button2.Location = new Point(543, 33);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
-            button2.TabIndex = 11;
+            button2.TabIndex = 6;
             button2.Text = "Buscar";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;

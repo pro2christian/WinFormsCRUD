@@ -22,8 +22,8 @@ namespace WinFormsCRUD
             list_contato.Columns.Add("Nome", 150, HorizontalAlignment.Left);
             list_contato.Columns.Add("E-mail", 150, HorizontalAlignment.Left);
             list_contato.Columns.Add("Telefone", 150, HorizontalAlignment.Left);
-         
-           
+
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -34,13 +34,14 @@ namespace WinFormsCRUD
                 //criar conexao com Mysql
                 Conexao = new MySqlConnection(data_souce);
 
+                // executar comando insert
                 string sql = "INSERT INTO contato (nome, email, telefone) " + "VALUES" +
                     "('" + txt_nome.Text + "','" + txt_Email.Text + "', '" + txt_Telefone.Text + "')";
                 MySqlCommand comando = new MySqlCommand(sql, Conexao);
                 Conexao.Open();
-                
+
                 //controle vazio || nulo
-                if(string.IsNullOrWhiteSpace(txt_nome.Text) || 
+                if (string.IsNullOrWhiteSpace(txt_nome.Text) ||
                    string.IsNullOrWhiteSpace(txt_Email.Text) ||
                    string.IsNullOrWhiteSpace(txt_Telefone.Text))
                 {
@@ -48,18 +49,18 @@ namespace WinFormsCRUD
                                   "Telefone:\n" +
                                   "E-mail:\n" +
                                   "São obrigatórios!";
-                    MessageBox.Show(erro) ;  
+                    MessageBox.Show(erro);
                     return;
                 }
-              
 
                 comando.ExecuteReader();
                 MessageBox.Show("Cadastrado com sucesso!!");
-                // executar comando insert
+
 
             }
             catch (Exception ex)
             {
+
                 MessageBox.Show(ex.Message);
             }
             finally
@@ -72,7 +73,7 @@ namespace WinFormsCRUD
         {
             try
             {
-
+                //LIKE
                 string query = "'%" + txt_buscar_contato.Text + "%'";
 
                 //criar conexao com Mysql
@@ -82,15 +83,15 @@ namespace WinFormsCRUD
                 string sql = "SELECT * " +
                     " FROM contato " +
                     "WHERE nome LIKE " + query + "OR email LIKE " + query;
-                
+
                 string erro = "Digite o contato!";
                 //controle vazio 
                 if (string.IsNullOrWhiteSpace(txt_buscar_contato.Text))
                 {
-                    MessageBox.Show (erro);
+                    MessageBox.Show(erro);
                     return;
                 }
-               
+
                 Conexao.Open();
 
                 MySqlCommand comando = new MySqlCommand(sql, Conexao);
