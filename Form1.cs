@@ -5,6 +5,7 @@ namespace WinFormsCRUD
     {
         private MySqlConnection Conexao;
         private string data_souce = "datasource= localhost;username=root;password=;database=db_agenda";
+        private int? id_contato_selecionado = null;
 
         public Form1()
         {
@@ -33,41 +34,62 @@ namespace WinFormsCRUD
 
                 //criar conexao com Mysql
                 Conexao = new MySqlConnection(data_souce);
-
-                // executar comando insert
-                string sql = "INSERT INTO contato (nome, email, telefone) " + "VALUES" +
-                    "('" + txt_nome.Text + "','" + txt_Email.Text + "', '" + txt_Telefone.Text + "')";
-                MySqlCommand comando = new MySqlCommand(sql, Conexao);
                 Conexao.Open();
 
-                //controle vazio || nulo
-                if (string.IsNullOrWhiteSpace(txt_nome.Text) ||
-                   string.IsNullOrWhiteSpace(txt_Email.Text) ||
-                   string.IsNullOrWhiteSpace(txt_Telefone.Text))
+                
+                if(id_contato_selecionado == null)
                 {
-                    string erro = "Nome......:\n" +
-                                  "Telefone.:\n" +
-                                  "E-mail.....:\n" +
-                                  "São obrigatórios!";
-                    MessageBox.Show(erro);
-                    return;
+
+                    // executar comando insert
+                    string sql = "INSERT INTO contato (nome, email, telefone) " + "VALUES" +
+                        "('" + txt_nome.Text + "','" + txt_telefone.Text + "', '" + txt_email.Text + "')";
+                    MySqlCommand comando = new MySqlCommand(sql, Conexao);
+
+
+                    //controle vazio || nulo
+                    if (string.IsNullOrWhiteSpace(txt_nome.Text) ||
+                       string.IsNullOrWhiteSpace(txt_telefone.Text) ||
+                       string.IsNullOrWhiteSpace(txt_email.Text))
+
+                    {
+                        string erro = "Nome......:\n" +
+                                      "Telefone.:\n" +
+                                      "E-mail.....:\n" +
+                                      "São obrigatórios!";
+                        MessageBox.Show(erro);
+                        return;
+                    }
+
+                    comando.ExecuteReader();
+
+                    txt_nome.Clear();
+                    txt_email.Clear();
+                    txt_telefone.Clear();
+
+                    MessageBox.Show("Cadastrado com sucesso!!");
+                }
+                else
+                {
+
+                    // executar comando atualizar
+                    string sql = "UPDATE contato SET (nome, email, telefone)  +  WHERE id = (' "+ txt_nome.Text + "','" + txt_telefone.Text + "', " +
+                                 "'" + txt_email.Text + "', '" + id_contato_selecionado + "')";
+                                                     
+                    
+                    MySqlCommand comando = new MySqlCommand(sql, Conexao);
+
+
+                    comando.ExecuteReader();
+
+                    MessageBox.Show("Contato Atualizado com sucesso!!");
                 }
 
-                comando.ExecuteReader();
-
-                txt_nome.Clear();
-                txt_Telefone.Clear();
-                txt_Email.Clear();
-
-                MessageBox.Show("Cadastrado com sucesso!!");
-                 
-
-
+                                
             }
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Não foi possivel Atualizar o contato:\r\n" + ex.Message);
             }
             finally
             {
@@ -129,11 +151,29 @@ namespace WinFormsCRUD
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Não foi possivel estabelecer a conexão com MySQL:\r\n" + ex.Message);
             }
             finally
             {
                 Conexao.Close();
+            }
+        }
+
+        //retona o valor que está selecionado no listview para o campo apontado, nome,telefone, e-mail
+        private void list_contato_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            ListView.SelectedListViewItemCollection itens_selecionados = list_contato.SelectedItems;
+
+            //percorre cada item da seleção
+
+            foreach (ListViewItem item in itens_selecionados)
+            {
+                id_contato_selecionado = Convert.ToInt32(item.SubItems[0].Text);
+
+                txt_nome.Text = item.SubItems[1].Text;
+                txt_email.Text = item.SubItems[2].Text;
+                txt_telefone.Text = item.SubItems[3].Text;
+
             }
         }
     }
