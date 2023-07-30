@@ -34,8 +34,8 @@
             txt_delete = new Button();
             label2 = new Label();
             label3 = new Label();
-            txt_email = new TextBox();
-            txt_telefone = new TextBox();
+            txt_Telefone = new TextBox();
+            txt_Email = new TextBox();
             list_contato = new ListView();
             label4 = new Label();
             txt_buscar_contato = new TextBox();
@@ -47,7 +47,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = SystemColors.ControlText;
-            label1.Location = new Point(15, 11);
+            label1.Location = new Point(12, 9);
             label1.Name = "label1";
             label1.Size = new Size(43, 15);
             label1.TabIndex = 0;
@@ -57,7 +57,7 @@
             // 
             txt_nome.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             txt_nome.ForeColor = SystemColors.MenuText;
-            txt_nome.Location = new Point(12, 33);
+            txt_nome.Location = new Point(15, 33);
             txt_nome.Name = "txt_nome";
             txt_nome.Size = new Size(239, 23);
             txt_nome.TabIndex = 1;
@@ -85,7 +85,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(15, 120);
+            label2.Location = new Point(12, 59);
             label2.Name = "label2";
             label2.Size = new Size(54, 15);
             label2.TabIndex = 0;
@@ -94,37 +94,35 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(15, 62);
+            label3.Location = new Point(12, 110);
             label3.Name = "label3";
             label3.Size = new Size(44, 15);
             label3.TabIndex = 0;
             label3.Text = "E-mail:";
             // 
-            // txt_email
+            // txt_Telefone
             // 
-            txt_email.ForeColor = SystemColors.MenuText;
-            txt_email.Location = new Point(12, 80);
-            txt_email.Name = "txt_email";
-            txt_email.Size = new Size(239, 23);
-            txt_email.TabIndex = 2;
+            txt_Telefone.ForeColor = SystemColors.MenuText;
+            txt_Telefone.Location = new Point(15, 81);
+            txt_Telefone.Name = "txt_Telefone";
+            txt_Telefone.Size = new Size(239, 23);
+            txt_Telefone.TabIndex = 2;
             // 
-            // txt_telefone
+            // txt_Email
             // 
-            txt_telefone.ForeColor = SystemColors.MenuText;
-            txt_telefone.Location = new Point(12, 138);
-            txt_telefone.Name = "txt_telefone";
-            txt_telefone.Size = new Size(239, 23);
-            txt_telefone.TabIndex = 3;
+            txt_Email.ForeColor = SystemColors.MenuText;
+            txt_Email.Location = new Point(15, 138);
+            txt_Email.Name = "txt_Email";
+            txt_Email.Size = new Size(239, 23);
+            txt_Email.TabIndex = 3;
             // 
             // list_contato
             // 
             list_contato.Location = new Point(260, 62);
-            list_contato.MultiSelect = false;
             list_contato.Name = "list_contato";
-            list_contato.Size = new Size(431, 304);
+            list_contato.Size = new Size(431, 146);
             list_contato.TabIndex = 8;
             list_contato.UseCompatibleStateImageBehavior = false;
-            list_contato.ItemSelectionChanged += list_contato_ItemSelectionChanged;
             // 
             // label4
             // 
@@ -139,12 +137,12 @@
             // 
             txt_buscar_contato.Location = new Point(260, 33);
             txt_buscar_contato.Name = "txt_buscar_contato";
-            txt_buscar_contato.Size = new Size(350, 23);
+            txt_buscar_contato.Size = new Size(277, 23);
             txt_buscar_contato.TabIndex = 5;
             // 
             // button2
             // 
-            button2.Location = new Point(616, 32);
+            button2.Location = new Point(543, 33);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 6;
@@ -156,13 +154,13 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(704, 380);
+            ClientSize = new Size(704, 221);
             Controls.Add(button2);
             Controls.Add(txt_buscar_contato);
             Controls.Add(label4);
             Controls.Add(list_contato);
-            Controls.Add(txt_telefone);
-            Controls.Add(txt_email);
+            Controls.Add(txt_Email);
+            Controls.Add(txt_Telefone);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(txt_delete);
@@ -170,7 +168,7 @@
             Controls.Add(txt_nome);
             Controls.Add(label1);
             Name = "Form1";
-            Text = "Agenda de Contatos C# CRUD - MySQL";
+            Text = "CRUD";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -183,8 +181,8 @@
         private Button txt_delete;
         private Label label2;
         private Label label3;
-        private TextBox txt_email;
-        private TextBox txt_telefone;
+        private TextBox txt_Telefone;
+        private TextBox txt_Email;
         private ListView list_contato;
         private Label label4;
         private TextBox txt_buscar_contato;
