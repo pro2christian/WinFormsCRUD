@@ -30,44 +30,47 @@ namespace WinFormsCRUD
         {
             try
             {
-
-                //criar conexao com Mysql
                 Conexao = new MySqlConnection(data_souce);
 
-                // executar comando insert
-                string sql = "INSERT INTO contato (nome, email, telefone) " + "VALUES" +
-                    "('" + txt_nome.Text + "','" + txt_Email.Text + "', '" + txt_Telefone.Text + "')";
-                MySqlCommand comando = new MySqlCommand(sql, Conexao);
                 Conexao.Open();
 
-                //controle vazio || nulo
-                if (string.IsNullOrWhiteSpace(txt_nome.Text) ||
-                   string.IsNullOrWhiteSpace(txt_Email.Text) ||
-                   string.IsNullOrWhiteSpace(txt_Telefone.Text))
-                {
-                    string erro = "Nome......:\n" +
-                                  "Telefone.:\n" +
-                                  "E-mail.....:\n" +
-                                  "São obrigatórios!";
-                    MessageBox.Show(erro);
-                    return;
-                }
+                //atribui comando sql ao cmd
+                MySqlCommand cmd = new MySqlCommand();
 
-                comando.ExecuteReader();
+                //cria conexao com mysql
+                cmd.Connection = Conexao;
 
-                txt_nome.Clear();
-                txt_Telefone.Clear();
-                txt_Email.Clear();
+                cmd.CommandText = "INSERT INTO contato (nome, email, telefone) " +
+                                  "VALUES " +
+                                  "(@nome, @email, @telefone)";
+                
+                cmd.Parameters.AddWithValue("@nome", txtNome.Text);
+                cmd.Parameters.AddWithValue("@email", txtEmail.Text);
+                cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
 
-                MessageBox.Show("Cadastrado com sucesso!!");
-                 
+                txtNome.Clear();
+                txtEmail.Clear();
+                txtTelefone.Clear();
 
+                MessageBox.Show("Contato inserido com sucesso!!", "Sucessso!",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
 
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Erro " + ex.Number + " ocorreu: " + ex.Message,
+                                "Erro", MessageBoxButtons.OK, 
+                                MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Ocorreu: " + ex.Message,
+                               "Error",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Information);
             }
             finally
             {
