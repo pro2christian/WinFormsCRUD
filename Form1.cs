@@ -22,6 +22,7 @@ namespace WinFormsCRUD
             list_contato.Columns.Add("Nome", 150, HorizontalAlignment.Left);
             list_contato.Columns.Add("E-mail", 150, HorizontalAlignment.Left);
             list_contato.Columns.Add("Telefone", 150, HorizontalAlignment.Left);
+            carregar_contatos();
 
 
         }
@@ -67,6 +68,7 @@ namespace WinFormsCRUD
                 MessageBox.Show("Contato inserido com sucesso!!", "Sucesso!",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
+                carregar_contatos();
 
             }
             catch (MySqlException ex)
@@ -133,6 +135,60 @@ namespace WinFormsCRUD
 
                     //Linha da lista
                     
+                    list_contato.Items.Add(new ListViewItem(linha));
+                }
+
+
+
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Erro " + ex.Number + " ocorreu: " + ex.Message,
+                                "Erro", MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocorreu: " + ex.Message,
+                               "Error",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Information);
+            }
+            finally
+            {
+                Conexao.Close();
+            }
+        }
+        private void carregar_contatos()
+        {
+            try
+            {
+                Conexao = new MySqlConnection(data_souce);
+                Conexao.Open();
+
+               
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Conexao;
+                cmd.CommandText = "SELECT * FROM contato nome ORDER BY id DESC ";
+                cmd.Prepare();
+
+             
+                MySqlDataReader ler = cmd.ExecuteReader();
+
+                list_contato.Items.Clear();
+
+                while (ler.Read())
+                {
+                    string[] linha =
+                    {
+                       ler.GetString(0), // "ID"
+                       ler.GetString(1),// "NOME"
+                       ler.GetString(2),// "E-MAIL"
+                       ler.GetString(3),// "TELEFONE"
+                    };
+
+                    //Linha da lista
+
                     list_contato.Items.Add(new ListViewItem(linha));
                 }
 
