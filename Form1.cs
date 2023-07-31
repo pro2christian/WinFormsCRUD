@@ -40,10 +40,20 @@ namespace WinFormsCRUD
                 //cria conexao com mysql
                 cmd.Connection = Conexao;
 
+                if (string.IsNullOrEmpty(txtNome.Text) ||
+                   string.IsNullOrEmpty(txtEmail.Text) ||
+                   string.IsNullOrEmpty(txtTelefone.Text))
+                {
+                    MessageBox.Show("Nome, E-mail, Telefone\r\n  " +
+                                    "São obrigatórios!!", "Erro!",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
                 cmd.CommandText = "INSERT INTO contato (nome, email, telefone) " +
                                   "VALUES " +
                                   "(@nome, @email, @telefone)";
-                
+
                 cmd.Parameters.AddWithValue("@nome", txtNome.Text);
                 cmd.Parameters.AddWithValue("@email", txtEmail.Text);
                 cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
@@ -54,7 +64,7 @@ namespace WinFormsCRUD
                 txtEmail.Clear();
                 txtTelefone.Clear();
 
-                MessageBox.Show("Contato inserido com sucesso!!", "Sucessso!",
+                MessageBox.Show("Contato inserido com sucesso!!", "Sucesso!",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
 
@@ -62,7 +72,7 @@ namespace WinFormsCRUD
             catch (MySqlException ex)
             {
                 MessageBox.Show("Erro " + ex.Number + " ocorreu: " + ex.Message,
-                                "Erro", MessageBoxButtons.OK, 
+                                "Erro", MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
             }
             catch (Exception ex)
@@ -82,31 +92,30 @@ namespace WinFormsCRUD
         {
             try
             {
-                //LIKE
-                string query = "'%" + txt_buscar_contato.Text + "%'";
-
-                //criar conexao com Mysql
                 Conexao = new MySqlConnection(data_souce);
+                Conexao.Open();
 
+                //atribui comando sql ao cmd
+                MySqlCommand cmd = new MySqlCommand();
 
-                string sql = "SELECT * " +
-                    " FROM contato " +
-                    "WHERE nome LIKE " + query + "OR email LIKE " + query;
+                //cria conexao com mysql
+                cmd.Connection = Conexao;
 
-                string erro = "Digite o contato!";
-                //controle vazio 
                 if (string.IsNullOrWhiteSpace(txt_buscar_contato.Text))
                 {
-                    MessageBox.Show(erro);
+
+                    MessageBox.Show("Digite um contato!!", "Erro",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
                     return;
                 }
 
-                Conexao.Open();
-
-                MySqlCommand comando = new MySqlCommand(sql, Conexao);
-
+                cmd.CommandText = "SELECT * FROM contato WHERE nome LIKE  @q OR  email LIKE @q ";
+                cmd.Parameters.AddWithValue("@q", "%" + txt_buscar_contato.Text + "%");
+                cmd.Prepare();
+               
                 //Recupera os dados do MySql
-                MySqlDataReader ler = comando.ExecuteReader();
+                MySqlDataReader ler = cmd.ExecuteReader();
 
                 //Limpa os dados da busca
                 list_contato.Items.Clear();
@@ -123,16 +132,25 @@ namespace WinFormsCRUD
                     };
 
                     //Linha da lista
-                    var linha_listview = new ListViewItem(linha);
-                    list_contato.Items.Add(linha_listview);
+                    
+                    list_contato.Items.Add(new ListViewItem(linha));
                 }
 
 
 
             }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Erro " + ex.Number + " ocorreu: " + ex.Message,
+                                "Erro", MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Ocorreu: " + ex.Message,
+                               "Error",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Information);
             }
             finally
             {
