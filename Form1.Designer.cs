@@ -40,6 +40,7 @@
             label4 = new Label();
             txt_buscar_contato = new TextBox();
             button2 = new Button();
+            button3 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -74,7 +75,7 @@
             // 
             // txt_delete
             // 
-            txt_delete.Location = new Point(93, 168);
+            txt_delete.Location = new Point(174, 168);
             txt_delete.Name = "txt_delete";
             txt_delete.Size = new Size(75, 23);
             txt_delete.TabIndex = 7;
@@ -124,6 +125,7 @@
             list_contato.Size = new Size(433, 331);
             list_contato.TabIndex = 8;
             list_contato.UseCompatibleStateImageBehavior = false;
+            list_contato.ItemSelectionChanged += list_contato_ItemSelectionChanged;
             // 
             // label4
             // 
@@ -151,11 +153,23 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // button3
+            // 
+            button3.Location = new Point(93, 168);
+            button3.Name = "button3";
+            button3.Size = new Size(75, 23);
+            button3.TabIndex = 4;
+            button3.Text = "Novo";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ControlDark;
             ClientSize = new Size(708, 405);
+            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(txt_buscar_contato);
             Controls.Add(label4);
@@ -188,5 +202,6 @@
         private Label label4;
         private TextBox txt_buscar_contato;
         private Button button2;
+        private Button button3;
     }
 }

@@ -1,15 +1,19 @@
 using MySql.Data.MySqlClient;
+using System.Security.AccessControl;
+
 namespace WinFormsCRUD
 {
     public partial class Form1 : Form
     {
         private MySqlConnection Conexao;
-        private string data_souce = "datasource= localhost;username=root;password=;database=db_agenda";
+        private string data_souce = "datasource= localhost;uid=root;password=;database=db_agenda";
+
+        //? variavel anulavel 
+        private int? id_contato_selecionado = null;
 
         public Form1()
         {
             InitializeComponent();
-
 
             list_contato.View = View.Details;
             list_contato.LabelEdit = true;
@@ -24,7 +28,6 @@ namespace WinFormsCRUD
             list_contato.Columns.Add("Telefone", 150, HorizontalAlignment.Left);
             carregar_contatos();
 
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -35,39 +38,64 @@ namespace WinFormsCRUD
 
                 Conexao.Open();
 
-                //atribui comando sql ao cmd
+                // comando sql ao cmd
                 MySqlCommand cmd = new MySqlCommand();
 
-                //cria conexao com mysql
+                //conexao com mysql
                 cmd.Connection = Conexao;
 
-                if (string.IsNullOrEmpty(txtNome.Text) ||
-                   string.IsNullOrEmpty(txtEmail.Text) ||
-                   string.IsNullOrEmpty(txtTelefone.Text))
+                if (id_contato_selecionado == null)
                 {
-                    MessageBox.Show("Nome, E-mail, Telefone\r\n  " +
-                                    "São obrigatórios!!", "Erro!",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                    return;
+                    //insert
+                    if (string.IsNullOrEmpty(txtNome.Text) ||
+                        string.IsNullOrEmpty(txtEmail.Text) ||
+                        string.IsNullOrEmpty(txtTelefone.Text))
+                    {
+                        MessageBox.Show("Nome, E-mail, Telefone\r\n  " +
+                                        "São obrigatórios!!", "Erro!",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                        return;
+                    }
+                    cmd.CommandText = "INSERT INTO contato (nome, email, telefone) " +
+                                      "VALUES " +
+                                      "(@nome, @email, @telefone)";
+
+                    cmd.Parameters.AddWithValue("@nome", txtNome.Text);
+                    cmd.Parameters.AddWithValue("@email", txtEmail.Text);
+                    cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
+                    cmd.Prepare();
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Contato inserido com sucesso!!",
+                                    "Sucesso!",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
                 }
-                cmd.CommandText = "INSERT INTO contato (nome, email, telefone) " +
-                                  "VALUES " +
-                                  "(@nome, @email, @telefone)";
+                else
+                {
+                    // atualiza contato
+                    cmd.CommandText = "UPDATE contato " +
+                                      "SET nome =@nome, email =@email, telefone =@telefone " +
+                                      "WHERE id=@id";
 
-                cmd.Parameters.AddWithValue("@nome", txtNome.Text);
-                cmd.Parameters.AddWithValue("@email", txtEmail.Text);
-                cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
-                cmd.Prepare();
-                cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@nome", txtNome.Text);
+                    cmd.Parameters.AddWithValue("@email", txtEmail.Text);
+                    cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
+                    cmd.Parameters.AddWithValue("@id", id_contato_selecionado);
+                    cmd.Prepare();
+                    cmd.ExecuteNonQuery();
 
+                    MessageBox.Show("Contato atualizado com sucesso!!",
+                                    "Sucesso!",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                }
+
+                id_contato_selecionado = null;
                 txtNome.Clear();
                 txtEmail.Clear();
                 txtTelefone.Clear();
-
-                MessageBox.Show("Contato inserido com sucesso!!", "Sucesso!",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
                 carregar_contatos();
 
             }
@@ -115,7 +143,7 @@ namespace WinFormsCRUD
                 cmd.CommandText = "SELECT * FROM contato WHERE nome LIKE  @q OR  email LIKE @q ";
                 cmd.Parameters.AddWithValue("@q", "%" + txt_buscar_contato.Text + "%");
                 cmd.Prepare();
-               
+
                 //Recupera os dados do MySql
                 MySqlDataReader ler = cmd.ExecuteReader();
 
@@ -134,11 +162,8 @@ namespace WinFormsCRUD
                     };
 
                     //Linha da lista
-                    
                     list_contato.Items.Add(new ListViewItem(linha));
                 }
-
-
 
             }
             catch (MySqlException ex)
@@ -166,13 +191,12 @@ namespace WinFormsCRUD
                 Conexao = new MySqlConnection(data_souce);
                 Conexao.Open();
 
-               
+
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = Conexao;
                 cmd.CommandText = "SELECT * FROM contato nome ORDER BY id DESC ";
                 cmd.Prepare();
 
-             
                 MySqlDataReader ler = cmd.ExecuteReader();
 
                 list_contato.Items.Clear();
@@ -181,18 +205,16 @@ namespace WinFormsCRUD
                 {
                     string[] linha =
                     {
-                       ler.GetString(0), // "ID"
-                       ler.GetString(1),// "NOME"
-                       ler.GetString(2),// "E-MAIL"
-                       ler.GetString(3),// "TELEFONE"
+                       ler.GetString(0),
+                       ler.GetString(1),
+                       ler.GetString(2),
+                       ler.GetString(3),
                     };
 
                     //Linha da lista
 
                     list_contato.Items.Add(new ListViewItem(linha));
                 }
-
-
 
             }
             catch (MySqlException ex)
@@ -212,6 +234,33 @@ namespace WinFormsCRUD
             {
                 Conexao.Close();
             }
+        }
+
+        private void list_contato_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            ListView.SelectedListViewItemCollection itens_selecionados = list_contato.SelectedItems;
+
+            foreach (ListViewItem item in itens_selecionados)
+            {
+                id_contato_selecionado = Convert.ToInt32(item.SubItems[0].Text);
+
+                txtNome.Text = item.SubItems[1].Text;
+                txtEmail.Text = item.SubItems[2].Text;
+                txtTelefone.Text = item.SubItems[3].Text;
+            }
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            id_contato_selecionado = null;
+            txtNome.Clear();
+            txtEmail.Clear();
+            txtTelefone.Clear();
+           
+            //cursor em nome
+            txtNome.Focus();
+
         }
     }
 }
