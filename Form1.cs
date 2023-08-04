@@ -29,20 +29,21 @@ namespace WinFormsCRUD
             carregar_contatos();
 
         }
-
+        
+        //limpa formulario/campos
         private void limpa_formulario()
         {
             id_contato_selecionado = null;
             txtNome.Clear();
             txtEmail.Clear();
             txtTelefone.Clear();
+            txt_buscar_contato.Clear();
             carregar_contatos();
             button8.Visible = false;
         }
 
-        //inserir & atualizar
         private void button1_Click(object sender, EventArgs e)
-        {
+        {   //inserir & atualizar
             try
             {
                 Conexao = new MySqlConnection(data_souce);
@@ -123,9 +124,9 @@ namespace WinFormsCRUD
                 Conexao.Close();
             }
         }
-
+        
         private void button2_Click(object sender, EventArgs e)
-        {
+        {   //selecionar
             try
             {
                 Conexao = new MySqlConnection(data_souce);
@@ -140,8 +141,10 @@ namespace WinFormsCRUD
                     MessageBox.Show("Digite um contato!!", "Erro",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Error);
+                    txt_buscar_contato.Focus();
                     return;
                 }
+                
 
                 cmd.CommandText = "SELECT * FROM contato WHERE nome LIKE  @q OR  email LIKE @q ";
                 cmd.Parameters.AddWithValue("@q", "%" + txt_buscar_contato.Text + "%");
@@ -167,6 +170,7 @@ namespace WinFormsCRUD
                     //Linha da lista
                     list_contato.Items.Add(new ListViewItem(linha));
                 }
+                
 
             }
             catch (MySqlException ex)
@@ -238,7 +242,7 @@ namespace WinFormsCRUD
                 Conexao.Close();
             }
         }
-
+        //foreach in itens selecionados
         private void itens_selecionados()
         {
             ListView.SelectedListViewItemCollection itens_selecionados = list_contato.SelectedItems;
@@ -258,10 +262,11 @@ namespace WinFormsCRUD
             itens_selecionados();
             
         }
-
+       
         private void button3_Click(object sender, EventArgs e)
-        {
+        {   //novo
             limpa_formulario();
+            txtNome.Focus();
             
         }
         //método excluir
