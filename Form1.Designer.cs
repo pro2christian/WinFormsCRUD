@@ -28,19 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             label1 = new Label();
             txtNome = new TextBox();
             button1 = new Button();
-            txt_delete = new Button();
+            button8 = new Button();
             label2 = new Label();
             label3 = new Label();
             txtEmail = new TextBox();
             txtTelefone = new TextBox();
             list_contato = new ListView();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            toolStripMenuItem1 = new ToolStripMenuItem();
             label4 = new Label();
             txt_buscar_contato = new TextBox();
             button2 = new Button();
             button3 = new Button();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -73,14 +77,16 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // txt_delete
+            // button8
             // 
-            txt_delete.Location = new Point(174, 168);
-            txt_delete.Name = "txt_delete";
-            txt_delete.Size = new Size(75, 23);
-            txt_delete.TabIndex = 7;
-            txt_delete.Text = "Deletar";
-            txt_delete.UseVisualStyleBackColor = true;
+            button8.Location = new Point(174, 168);
+            button8.Name = "button8";
+            button8.Size = new Size(75, 23);
+            button8.TabIndex = 8;
+            button8.Text = "Deletar";
+            button8.UseVisualStyleBackColor = true;
+            button8.Visible = false;
+            button8.Click += txt_delete_Click;
             // 
             // label2
             // 
@@ -119,6 +125,7 @@
             // 
             // list_contato
             // 
+            list_contato.ContextMenuStrip = contextMenuStrip1;
             list_contato.Location = new Point(260, 62);
             list_contato.MultiSelect = false;
             list_contato.Name = "list_contato";
@@ -126,6 +133,19 @@
             list_contato.TabIndex = 8;
             list_contato.UseCompatibleStateImageBehavior = false;
             list_contato.ItemSelectionChanged += list_contato_ItemSelectionChanged;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1 });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(110, 26);
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(109, 22);
+            toolStripMenuItem1.Text = "Excluir";
+            toolStripMenuItem1.Click += toolStripMenuItem1_Click;
             // 
             // label4
             // 
@@ -141,14 +161,14 @@
             txt_buscar_contato.Location = new Point(260, 33);
             txt_buscar_contato.Name = "txt_buscar_contato";
             txt_buscar_contato.Size = new Size(352, 23);
-            txt_buscar_contato.TabIndex = 5;
+            txt_buscar_contato.TabIndex = 6;
             // 
             // button2
             // 
             button2.Location = new Point(618, 33);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
-            button2.TabIndex = 6;
+            button2.TabIndex = 7;
             button2.Text = "Buscar";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
@@ -158,7 +178,7 @@
             button3.Location = new Point(93, 168);
             button3.Name = "button3";
             button3.Size = new Size(75, 23);
-            button3.TabIndex = 4;
+            button3.TabIndex = 5;
             button3.Text = "Novo";
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
@@ -178,12 +198,13 @@
             Controls.Add(txtEmail);
             Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(txt_delete);
+            Controls.Add(button8);
             Controls.Add(button1);
             Controls.Add(txtNome);
             Controls.Add(label1);
             Name = "Form1";
             Text = "CRUD";
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -193,7 +214,7 @@
         private Label label1;
         private TextBox txtNome;
         private Button button1;
-        private Button txt_delete;
+        private Button button8;
         private Label label2;
         private Label label3;
         private TextBox txtEmail;
@@ -203,5 +224,7 @@
         private TextBox txt_buscar_contato;
         private Button button2;
         private Button button3;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem toolStripMenuItem1;
     }
 }

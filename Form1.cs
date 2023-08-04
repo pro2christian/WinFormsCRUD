@@ -30,6 +30,15 @@ namespace WinFormsCRUD
 
         }
 
+        private void limpa_formulario()
+        {
+            id_contato_selecionado = null;
+            txtNome.Clear();
+            txtEmail.Clear();
+            txtTelefone.Clear();
+            carregar_contatos();
+            button8.Visible = false;
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -91,13 +100,8 @@ namespace WinFormsCRUD
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
                 }
-
-                id_contato_selecionado = null;
-                txtNome.Clear();
-                txtEmail.Clear();
-                txtTelefone.Clear();
-                carregar_contatos();
-
+                limpa_formulario();
+               
             }
             catch (MySqlException ex)
             {
@@ -236,7 +240,7 @@ namespace WinFormsCRUD
             }
         }
 
-        private void list_contato_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void itens_selecionados()
         {
             ListView.SelectedListViewItemCollection itens_selecionados = list_contato.SelectedItems;
 
@@ -247,20 +251,99 @@ namespace WinFormsCRUD
                 txtNome.Text = item.SubItems[1].Text;
                 txtEmail.Text = item.SubItems[2].Text;
                 txtTelefone.Text = item.SubItems[3].Text;
+                button8.Visible = true;
             }
+        }
+        private void list_contato_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            itens_selecionados();
+            
 
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            id_contato_selecionado = null;
-            txtNome.Clear();
-            txtEmail.Clear();
-            txtTelefone.Clear();
-           
-            //cursor em nome
-            txtNome.Focus();
+            limpa_formulario();
+            
+
 
         }
+        private void excluir_contato()
+        {
+            try
+            {
+                Conexao = new MySqlConnection(data_souce);
+
+                Conexao.Open();
+
+
+                MySqlCommand cmd = new MySqlCommand();
+
+                if (id_contato_selecionado != null)
+                {
+
+                    cmd.Connection = Conexao;
+                    cmd.CommandText = "DELETE FROM contato " + " WHERE id=@id";
+
+                    cmd.Parameters.AddWithValue("@id", id_contato_selecionado);
+                    cmd.Prepare();
+                    cmd.ExecuteNonQuery();
+
+                    DialogResult result = MessageBox.Show("Deseja excluir o contato?",
+                                    "Confirmar a exclusão?",
+                                    MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        //Deletar contato
+                        MessageBox.Show("Excluído com Sucesso!!",
+                                       "Sucesso!",
+                                       MessageBoxButtons.OK,
+                                       MessageBoxIcon.Information);
+                        carregar_contatos();
+                        limpa_formulario();
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Nenhum Contato Selecionado!!",
+                                       "Erro",
+                                       MessageBoxButtons.OK);
+                    return;
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Erro " + ex.Number + " ocorreu: " + ex.Message,
+                                "Erro", MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocorreu: " + ex.Message,
+                               "Error",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Information);
+            }
+            finally
+            {
+                Conexao.Close();
+            }
+        }
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            excluir_contato();
+
+        }
+
+        private void txt_delete_Click(object sender, EventArgs e)
+        {
+            excluir_contato();
+
+        }
+
     }
 }
