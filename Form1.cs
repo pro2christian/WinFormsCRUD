@@ -39,6 +39,8 @@ namespace WinFormsCRUD
             carregar_contatos();
             button8.Visible = false;
         }
+
+        //inserir & atualizar
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -55,7 +57,7 @@ namespace WinFormsCRUD
 
                 if (id_contato_selecionado == null)
                 {
-                    //insert
+                    
                     if (string.IsNullOrEmpty(txtNome.Text) ||
                         string.IsNullOrEmpty(txtEmail.Text) ||
                         string.IsNullOrEmpty(txtTelefone.Text))
@@ -128,16 +130,13 @@ namespace WinFormsCRUD
             {
                 Conexao = new MySqlConnection(data_souce);
                 Conexao.Open();
-
-                //atribui comando sql ao cmd
+                               
                 MySqlCommand cmd = new MySqlCommand();
-
-                //cria conexao com mysql
+                            
                 cmd.Connection = Conexao;
 
                 if (string.IsNullOrWhiteSpace(txt_buscar_contato.Text))
                 {
-
                     MessageBox.Show("Digite um contato!!", "Erro",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Error);
@@ -258,16 +257,14 @@ namespace WinFormsCRUD
         {
             itens_selecionados();
             
-
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             limpa_formulario();
             
-
-
         }
+        //método excluir
         private void excluir_contato()
         {
             try
@@ -281,7 +278,6 @@ namespace WinFormsCRUD
 
                 if (id_contato_selecionado != null)
                 {
-
                     cmd.Connection = Conexao;
                     cmd.CommandText = "DELETE FROM contato " + " WHERE id=@id";
 
